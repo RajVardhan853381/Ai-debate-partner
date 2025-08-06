@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Debate Partner - RAG-Powered Counter-Arguments</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1 class="header__title">AI Debate Partner</h1>
+            <p class="header__subtitle">
+                Powered by Retrieval-Augmented Generation (RAG) for fact-based counter-arguments
+            </p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Topic Input Section -->
+            <section class="topic-input card" id="topicInput">
+                <div class="card__body">
+                    <h2>Enter Your Debate Topic</h2>
+                    <form id="debateForm" class="debate-form">
+                        <div class="form-group">
+                            <label for="topicText" class="form-label">Your Argument or Position</label>
+                            <textarea 
+                                id="topicText" 
+                                class="form-control topic-textarea" 
+                                placeholder="Enter your stance on a topic (e.g., 'AI should be regulated by government because...')"
+                                rows="4"
+                            ></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="stance" class="form-label">Your Position</label>
+                            <select id="stance" class="form-control">
+                                <option value="pro">Pro (Supporting)</option>
+                                <option value="against">Against (Opposing)</option>
+                                <option value="neutral">Neutral (Exploring)</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn--primary btn--full-width">
+                            Start Debate Analysis
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Sample Topics -->
+            <section class="sample-topics card">
+                <div class="card__body">
+                    <h3>Sample Topics for Inspiration</h3>
+                    <div class="topics-grid" id="sampleTopics">
+                        <!-- Topics will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Argument Analysis Section -->
+            <section class="analysis-section card hidden" id="analysisSection">
+                <div class="card__body">
+                    <h2>Argument Analysis</h2>
+                    <div class="analysis-content">
+                        <div class="user-position">
+                            <h3>Your Position</h3>
+                            <div class="position-display" id="positionDisplay"></div>
+                        </div>
+                        
+                        <div class="analysis-progress">
+                            <div class="progress-item">
+                                <div class="progress-icon">🔍</div>
+                                <div class="progress-text">Analyzing argument structure...</div>
+                                <div class="progress-status" id="analysisStatus">
+                                    <div class="loading-spinner"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-results hidden" id="analysisResults">
+                            <h4>Key Points Identified</h4>
+                            <ul id="keyPoints"></ul>
+                            <div class="argument-strength">
+                                <span>Argument Strength: </span>
+                                <div class="strength-rating" id="strengthRating"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RAG Retrieval Section -->
+            <section class="retrieval-section card hidden" id="retrievalSection">
+                <div class="card__body">
+                    <h2>Real-Time Information Retrieval</h2>
+                    <div class="retrieval-progress">
+                        <div class="sources-grid" id="sourcesGrid">
+                            <!-- Sources will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="retrieved-facts hidden" id="retrievedFacts">
+                        <h4>Retrieved Information</h4>
+                        <div class="facts-list" id="factsList"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Counter-Arguments Section -->
+            <section class="counter-arguments card hidden" id="counterArgumentsSection">
+                <div class="card__body">
+                    <h2>AI-Generated Counter-Arguments</h2>
+                    <div class="arguments-container" id="argumentsContainer">
+                        <!-- Counter-arguments will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Interactive Debate Interface -->
+            <section class="debate-interface card hidden" id="debateInterface">
+                <div class="card__body">
+                    <h2>Interactive Debate</h2>
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages"></div>
+                        <div class="chat-input-container">
+                            <div class="quick-actions">
+                                <button class="btn btn--sm btn--outline" data-action="prove-it">Prove It</button>
+                                <button class="btn btn--sm btn--outline" data-action="more-details">More Details</button>
+                                <button class="btn btn--sm btn--outline" data-action="challenge">Challenge This</button>
+                            </div>
+                            <div class="chat-input-group">
+                                <input 
+                                    type="text" 
+                                    id="chatInput" 
+                                    class="form-control" 
+                                    placeholder="Ask follow-up questions or challenge arguments..."
+                                >
+                                <button class="btn btn--primary" id="sendMessage">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Fact-Checking Panel -->
+            <div class="fact-check-panel card">
+                <div class="card__body">
+                    <h3>Fact-Checking Status</h3>
+                    <div class="fact-checks" id="factChecks">
+                        <div class="fact-check-item">
+                            <div class="fact-check-status status--info">
+                                <span class="status-icon">⏳</span>
+                                Real-time verification active
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Educational Features -->
+            <div class="educational-panel card">
+                <div class="card__body">
+                    <h3>Debate Tips</h3>
+                    <div class="tips-container" id="tipsContainer">
+                        <!-- Tips will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logical Fallacies -->
+            <div class="fallacies-panel card">
+                <div class="card__body">
+                    <h3>Logical Fallacy Detector</h3>
+                    <div class="fallacies-status">
+                        <div class="status status--success">
+                            <span class="status-icon">✓</span>
+                            No fallacies detected
+                        </div>
+                    </div>
+                    <div class="fallacies-list" id="fallaciesList">
+                        <!-- Fallacies will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal for Source Details -->
+    <div class="modal hidden" id="sourceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Source Details</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Source details will be populated -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
